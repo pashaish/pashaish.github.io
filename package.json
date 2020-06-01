@@ -1,0 +1,41 @@
+{
+  "name": "tst",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "babel-loader": "^8.1.0",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "react-dom": "^16.13.1",
+    "react": "^16.13.1",
+    "webpack-cli": "^3.3.11",
+    "jss-plugin-camel-case": "^10.1.1",
+    "jss-plugin-nested": "^10.1.1",
+    "jss-plugin-vendor-prefixer": "^10.1.1",
+    "jss": "^10.1.1",
+    "jss-preset-default": "^10.1.1",
+    "webpack-dev-server": "^3.11.0",
+    "webpack": "^4.43.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.10.1",
+    "css-loader": "^3.5.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "style-loader": "^1.2.1"
+  },
+  "scripts": {
+    "build": "webpack --watch=false --mode=production",
+    "serve": "webpack-dev-server --watch=true --mode=development"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
