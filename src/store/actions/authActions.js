@@ -17,3 +17,15 @@ export const tryAuthAsync = (login, sublogin, password) => (dispatch) => {
     dispatch({ type: AUTH_ERROR, payload: error });
   });
 };
+
+export const checkAuthAsync = (session) => (dispatch) => {
+  const sendsay = new Sendsay();
+  sendsay.request({
+    session,
+    action: 'pong',
+  }).then(() => {
+    dispatch({ type: AUTH_SUCCESS, payload: { session: sendsay.session } });
+  }).catch(() => {
+    dispatch({ type: AUTH_ERROR });
+  });
+};

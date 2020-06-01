@@ -28,8 +28,8 @@ export const auth = (state = initialState, action) => {
         session: '',
         isPendingRequest: false,
         errorMessage: JSON.stringify({
-          id: action.payload.id,
-          explain: action.payload.explain,
+          id: action.payload ? action.payload.id : '',
+          explain: action.payload ? action.payload.explain : '',
         }),
       };
     case AUTH_SUCCESS:

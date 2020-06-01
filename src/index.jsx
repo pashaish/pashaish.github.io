@@ -4,8 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { Login } from './views/Login';
 import { persistedStore } from './store/store';
+import { Router } from './views/Router';
 
 const root = document.getElementById('root');
 
@@ -16,7 +16,7 @@ if (root === null) {
 ReactDOM.render(
   <Provider store={persistedStore.store}>
     <PersistGate loading={null} persistor={persistedStore.persistor}>
-      <Login />
+      <Router />
     </PersistGate>
   </Provider>,
   root,
