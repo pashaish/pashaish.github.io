@@ -52,7 +52,7 @@ export const Header = ({ login = '', onLogout = () => {} }) => {
         <div className={classes.loginWrapper}>
           <Text>{login}</Text>
         </div>
-        <TransparentButton onClick={() => fullscreenToggle()}>
+        <TransparentButton onClick={() => onLogout()}>
           <Text className={classes.logoutTxt} fontSize="16px">Выйти</Text>
           <LogoutIcon />
         </TransparentButton>
