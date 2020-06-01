@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import jss from 'jss';
+// import jss from 'jss';
 import { logoutAction } from '../store/actions/authActions';
 import { Header } from '../components/Header';
 
-const { classes } = jss.createStyleSheet({
+// const { classes } = jss.createStyleSheet({
 
-}).attach();
+// }).attach();
 
 const mapStateToProps = (state) => ({
   login: state.auth.login,
 });
-
 
 const mapDispatchToProps = (dispatch) => ({
   logout: () => {
@@ -19,20 +18,25 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export const Console = connect(mapStateToProps, mapDispatchToProps)(class extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      //
-    };
-  }
+export const Console = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(
+  class extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        //
+      };
+    }
 
-  render() {
-    const { logout, login } = this.props;
-    return (
-      <>
-        <Header login={login} onLogout={() => logout()} />
-      </>
-    );
-  }
-});
+    render() {
+      const { logout, login } = this.props;
+      return (
+        <>
+          <Header login={login} onLogout={() => logout()} />
+        </>
+      );
+    }
+  },
+);

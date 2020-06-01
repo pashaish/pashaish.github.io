@@ -4,12 +4,10 @@ import { checkAuthAsyncAction } from '../store/actions/authActions';
 import { Login } from './Login';
 import { Console } from './Console';
 
-
 const mapStateToProps = (state) => ({
   session: state.auth.session,
   isAuth: state.auth.isAuth,
 });
-
 
 const mapDispatchToProps = (dispatch) => ({
   checkAuth: (login, password, sublogin) => {
@@ -17,23 +15,19 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
+export const Router = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(
+  class extends React.Component {
+    componentDidMount() {
+      const { checkAuth, session } = this.props;
+      checkAuth(session);
+    }
 
-export const Router = connect(mapStateToProps, mapDispatchToProps)(class extends React.Component {
-  componentDidMount() {
-    const { checkAuth, session } = this.props;
-    checkAuth(session);
-  }
-
-  render() {
-    const { isAuth } = this.props;
-    return (
-      <>
-        {
-        isAuth
-          ? <Console />
-          : <Login />
-        }
-      </>
-    );
-  }
-});
+    render() {
+      const { isAuth } = this.props;
+      return <>{isAuth ? <Console /> : <Login />}</>;
+    }
+  },
+);
