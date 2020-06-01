@@ -33,7 +33,8 @@
   },
   "scripts": {
     "build": "webpack --watch=false --mode=production",
-    "serve": "webpack-dev-server --watch=true --mode=development"
+    "serve": "webpack-dev-server --watch=true --mode=development",
+    "eslint": "eslint './src/**/*.jsx' --fix"
   },
   "keywords": [],
   "author": "",

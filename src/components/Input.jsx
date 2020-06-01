@@ -35,6 +35,7 @@ const { classes } = jss.createStyleSheet({
     },
   },
   errorText: {
+    marginTop: '2px',
     height: '6px',
     fontSize: '12px',
   },
