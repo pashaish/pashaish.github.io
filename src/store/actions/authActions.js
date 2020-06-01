@@ -13,7 +13,12 @@ export const tryAuthAsyncAction = (login, sublogin, password) => (dispatch) => {
     sublogin,
     password,
   }).then(() => {
-    dispatch({ type: AUTH_SUCCESS, payload: { session: sendsay.session } });
+    dispatch({
+      type: AUTH_SUCCESS,
+      payload: {
+        session: sendsay.session, login, sublogin,
+      },
+    });
   }).catch((error) => {
     dispatch({ type: AUTH_ERROR, payload: error });
   });
@@ -29,7 +34,17 @@ export const checkAuthAsyncAction = (session) => (dispatch) => {
     session,
     action: 'pong',
   }).then(() => {
-    dispatch({ type: AUTH_SUCCESS, payload: { session } });
+    sendsay.request({
+      session,
+      action: 'sys.settings.get',
+      list: [
+        'about.owner.email',
+      ],
+    }).then((e) => {
+      dispatch({ type: AUTH_SUCCESS, payload: { session, login: e.list['about.owner.email'][0] } });
+    }).catch((e) => {
+      dispatch({ type: AUTH_ERROR, payload: e });
+    });
   }).catch(() => {
     dispatch({ type: AUTH_ERROR });
   });

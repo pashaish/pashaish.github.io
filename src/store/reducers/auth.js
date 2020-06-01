@@ -5,6 +5,7 @@ import {
 
 const initialState = {
   session: '',
+  login: '',
   isAuth: false,
   errorMessage: '',
   isPendingRequest: false,
@@ -39,6 +40,7 @@ export const auth = (state = initialState, action) => {
         ...state,
         isAuth: true,
         isPendingRequest: false,
+        login: action.payload.login,
         session: action.payload.session,
         errorMessage: '',
       };

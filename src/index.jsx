@@ -13,6 +13,9 @@ if (root === null) {
   throw new Error('Root element not found');
 }
 
+document.body.style.padding = '0px';
+document.body.style.margin = '0px';
+
 ReactDOM.render(
   <Provider store={persistedStore.store}>
     <PersistGate loading={null} persistor={persistedStore.persistor}>

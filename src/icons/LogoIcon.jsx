@@ -1,7 +1,7 @@
 // @ts-check
 import React from 'react';
 
-export const Logo = () => (
+export const LogoIcon = () => (
   <svg width="115" height="30" viewBox="0 0 115 30" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="15" cy="15" r="15" fill="black" fillOpacity="0.2" />
     <circle cx="70" cy="15" r="15" fill="black" fillOpacity="0.2" />

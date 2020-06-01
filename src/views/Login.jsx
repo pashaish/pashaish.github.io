@@ -5,7 +5,7 @@ import jss from 'jss';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import { Text } from '../components/Text';
-import { Logo } from '../components/Logo';
+import { LogoIcon } from '../icons/LogoIcon';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { tryAuthAsyncAction } from '../store/actions/authActions';
@@ -122,7 +122,7 @@ export const Login = connect(mapStateToProps, mapDispatchToProps)(class extends 
     const { errorMessage, isPendingRequest } = this.props;
     return (
       <div className={classes.wrapper}>
-        <Logo />
+        <LogoIcon />
         <div className={classes.card}>
           <Text fontSize="24px" type="span">API-консолька</Text>
           {showError ? <AuthErrorBox message={errorMessage} /> : ''}

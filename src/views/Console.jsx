@@ -1,8 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import jss from 'jss';
 import { logoutAction } from '../store/actions/authActions';
+import { Header } from '../components/Header';
 
-const mapStateToProps = () => ({
+const { classes } = jss.createStyleSheet({
+
+}).attach();
+
+const mapStateToProps = (state) => ({
+  login: state.auth.login,
 });
 
 
@@ -21,10 +28,10 @@ export const Console = connect(mapStateToProps, mapDispatchToProps)(class extend
   }
 
   render() {
-    const { logout } = this.props;
+    const { logout, login } = this.props;
     return (
       <>
-        <button type="button" onClick={() => logout()}>Logout</button>
+        <Header login={login} onLogout={() => logout()} />
       </>
     );
   }
