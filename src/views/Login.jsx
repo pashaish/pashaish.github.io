@@ -1,12 +1,14 @@
 // @ts-check
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import React from 'react';
 import jss from 'jss';
 import { connect } from 'react-redux';
+import Loader from 'react-loader-spinner';
 import { Text } from '../components/Text';
 import { Logo } from '../components/Logo';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
-import { tryAuthAsync } from '../store/actions/authActions';
+import { tryAuthAsyncAction } from '../store/actions/authActions';
 import { AuthErrorBox } from '../components/AuthErrorBox';
 
 const { classes } = jss.createStyleSheet({
@@ -21,6 +23,9 @@ const { classes } = jss.createStyleSheet({
     right: 0,
     top: 0,
     bottom: 0,
+  },
+  loader: {
+    marginTop: '3px',
   },
   card: {
     display: 'flex',
@@ -47,12 +52,13 @@ const { classes } = jss.createStyleSheet({
 
 const mapStateToProps = (state) => ({
   errorMessage: state.auth.errorMessage,
+  isPendingRequest: state.auth.isPendingRequest,
 });
 
 
 const mapDispatchToProps = (dispatch) => ({
   tryAuth: (login, password, sublogin) => {
-    dispatch(tryAuthAsync(login, sublogin, password));
+    dispatch(tryAuthAsyncAction(login, sublogin, password));
   },
 });
 
@@ -113,7 +119,7 @@ export const Login = connect(mapStateToProps, mapDispatchToProps)(class extends 
     const {
       showError, login, password, sublogin,
     } = this.state;
-    const { errorMessage } = this.props;
+    const { errorMessage, isPendingRequest } = this.props;
     return (
       <div className={classes.wrapper}>
         <Logo />
@@ -147,7 +153,15 @@ export const Login = connect(mapStateToProps, mapDispatchToProps)(class extends 
             })}
           />
           <Button onClick={this.auth}>
-            Войти
+            {
+              isPendingRequest
+                ? (
+                  <div className={classes.loader}>
+                    <Loader height={30} width={30} color="white" type="TailSpin" />
+                  </div>
+                )
+                : 'Войти'
+              }
           </Button>
         </div>
         <a className={classes.href} href="https://github.com/pashaish">

@@ -1,6 +1,7 @@
 // @ts-check
 import React from 'react';
 import jss from 'jss';
+import { Text } from './Text';
 
 const { classes } = jss.createStyleSheet({
   button: {
@@ -8,8 +9,11 @@ const { classes } = jss.createStyleSheet({
     borderRadius: '5px',
     width: '120px',
     height: '40px',
-    color: 'white',
     border: '0px',
+    color: 'white',
+  },
+  text: {
+    color: 'white',
   },
 }).attach();
 /**
@@ -24,6 +28,6 @@ export const Button = ({ children = '', onClick }) => (
     onClick={onClick}
     type="button"
   >
-    {children}
+    <Text className={classes.text}>{children}</Text>
   </button>
 );

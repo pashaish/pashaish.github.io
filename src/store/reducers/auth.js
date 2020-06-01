@@ -1,5 +1,7 @@
 // @ts-check
-import { AUTH_PENDING, AUTH_ERROR, AUTH_SUCCESS } from '../actions/authActions';
+import {
+  AUTH_PENDING, AUTH_ERROR, AUTH_SUCCESS, AUTH_LOGOUT,
+} from '../actions/authActions';
 
 const initialState = {
   session: '',
@@ -39,6 +41,14 @@ export const auth = (state = initialState, action) => {
         isPendingRequest: false,
         session: action.payload.session,
         errorMessage: '',
+      };
+    case AUTH_LOGOUT:
+      return {
+        ...state,
+        errorMessage: '',
+        isAuth: false,
+        isPendingRequest: false,
+        session: '',
       };
     default:
       return state;

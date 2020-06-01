@@ -1,7 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { logoutAction } from '../store/actions/authActions';
 
-export const Console = connect()(class extends React.Component {
+const mapStateToProps = () => ({
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+  logout: () => {
+    dispatch(logoutAction());
+  },
+});
+
+export const Console = connect(mapStateToProps, mapDispatchToProps)(class extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,6 +21,11 @@ export const Console = connect()(class extends React.Component {
   }
 
   render() {
-    return <>ds</>;
+    const { logout } = this.props;
+    return (
+      <>
+        <button type="button" onClick={() => logout()}>Logout</button>
+      </>
+    );
   }
 });
