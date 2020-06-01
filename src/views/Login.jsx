@@ -110,7 +110,9 @@ export const Login = connect(mapStateToProps, mapDispatchToProps)(class extends 
   }
 
   render() {
-    const { showError, login, password, sublogin } = this.state;
+    const {
+      showError, login, password, sublogin,
+    } = this.state;
     const { errorMessage } = this.props;
     return (
       <div className={classes.wrapper}>
