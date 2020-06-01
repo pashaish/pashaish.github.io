@@ -4,12 +4,14 @@ import { LogoIcon } from '../icons/LogoIcon';
 import { Text } from './Text';
 import { LogoutIcon } from '../icons/LogoutIcon';
 import { FullscreenIcon } from '../icons/FullscreenIcon';
+import { TransparentButton } from './TransparentButton';
 
 const { classes } = jss.createStyleSheet({
   spacer: {
     marginLeft: 'auto',
   },
   header: {
+    backgroundColor: '#F6F6F6',
     display: 'flex',
     flexDirection: 'row',
     borderBottom: '1px solid lightgray',
@@ -22,16 +24,12 @@ const { classes } = jss.createStyleSheet({
     border: '1px solid rgba(0, 0, 0, 0.2);',
     borderRadius: '5px',
   },
-  btn: {
-    display: 'flex',
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    border: 'none',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: '10px',
-    marginRight: '10px',
+  consoleTitle: {
+    marginLeft: '15px',
   },
+  logoutTxt: {
+    marginRight: '13px',
+  }
 }).attach();
 
 
@@ -49,22 +47,18 @@ export const Header = ({ login = '', onLogout = () => {} }) => {
     <>
       <div className={classes.header}>
         <LogoIcon />
-        <Text fontSize="20px">API-консолька</Text>
+        <Text className={classes.consoleTitle} fontSize="20px">API-консолька</Text>
         <div className={classes.spacer} />
         <div className={classes.loginWrapper}>
           <Text>{login}</Text>
         </div>
-        <button type="button" onClick={() => onLogout()} className={classes.btn}>
-          <Text fontSize="16px">Выйти</Text>
+        <TransparentButton onClick={() => fullscreenToggle()}>
+          <Text className={classes.logoutTxt} fontSize="16px">Выйти</Text>
           <LogoutIcon />
-        </button>
-        <button
-          type="button"
-          className={classes.btn}
-          onClick={() => fullscreenToggle()}
-        >
+        </TransparentButton>
+        <TransparentButton onClick={() => fullscreenToggle()}>
           <FullscreenIcon />
-        </button>
+        </TransparentButton>
       </div>
     </>
   );
