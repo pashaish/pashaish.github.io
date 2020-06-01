@@ -33,6 +33,14 @@ const { classes } = jss.createStyleSheet({
       marginTop: '25px',
     },
   },
+  href: {
+    marginTop: '8px',
+    color: '#999999',
+    textDecoration: 'none',
+    '& *': {
+      color: '#999999',
+    },
+  },
 }).attach();
 
 
@@ -135,6 +143,9 @@ export const Login = connect(mapStateToProps, mapDispatchToProps)(class extends 
             Войти
           </Button>
         </div>
+        <a className={classes.href} href="https://github.com/pashaish">
+          <Text>https://github.com/pashaish</Text>
+        </a>
       </div>
     );
   }
