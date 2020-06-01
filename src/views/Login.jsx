@@ -1,12 +1,12 @@
 // @ts-check
 import React from 'react';
 import jss from 'jss';
+import { connect } from 'react-redux';
 import { Text } from '../components/Text';
 import { Logo } from '../components/Logo';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { tryAuth } from '../store/actions/authActions';
-import { connect } from 'react-redux';
 
 const { classes } = jss.createStyleSheet({
   wrapper: {
@@ -35,60 +35,87 @@ const { classes } = jss.createStyleSheet({
   },
 }).attach();
 
-export const Login = () => {
-  const [login, setLogin] = React.useState({ value: '', error: null });
-  const [sublogin, setSublogin] = React.useState({ value: '', error: null });
-  const [password, setPassword] = React.useState({ value: '', error: null });
+export class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.auth = this.auth.bind(this);
+    this.state = {
+      login: { value: '', error: null },
+      sublogin: { value: '', error: null },
+      password: { value: '', error: null },
+    };
+  }
 
-  const auth = () => {
+  auth() {
+    const { login, password } = this.state;
+
     if (login.value.match(/\s/)) {
-      setLogin({ ...login, error: 'Поле не должно содержать пробелы' });
+      this.setState({
+        login: { ...login, error: 'Поле не должно содержать пробелы' },
+      });
     } else
     if (login.value.toLowerCase().match(/[а-я]/)) {
-      setLogin({ ...login, error: 'Поле не должно содержать кириллицы' });
+      this.setState({
+        login: { ...login, error: 'Поле не должно содержать кириллицы' }
+      });
     } else
     if (password.value.toLowerCase().match(/[а-я]/)) {
-      setPassword({ ...password, error: 'Поле не должно содержать кириллицы' });
+      this.setState({
+        password: { ...password, error: 'Поле не должно содержать кириллицы' }
+      });
     } else
     if (login.value.length < 4) {
-      setLogin({ ...login, error: 'Поле должно содержать больше 3 символов' });
+      this.setState({
+        login: { ...login, error: 'Поле должно содержать больше 3 символов' }
+      });
     } else
     if (password.value.length < 5) {
-      setPassword({ ...password, error: 'Поле должно содержать больше 4 символов' });
+      this.setState({
+        login: { ...password, error: 'Поле должно содержать больше 4 символов' }
+      });
     } else {
-      tryAuth({ login: login.value, password: password.value });
+      tryAuth({ login, password: password.value });
     }
-  };
+  }
 
-  return (
-    <div className={classes.wrapper}>
-      <Logo />
-      <div className={classes.card}>
-        <Text fontSize="24px" type="span">API-консолька</Text>
-        <Input
-          label="Логин"
-          error={login.error}
-          value={login.value}
-          onChange={(e) => setLogin({ value: e.currentTarget.value, error: null })}
-        />
-        <Input
-          label="Сублогин"
-          sublabel="Опционально"
-          error={sublogin.error}
-          value={sublogin.value}
-          onChange={(e) => setSublogin({ value: e.currentTarget.value, error: null })}
-        />
-        <Input
-          type="password"
-          label="Пароль"
-          error={password.error}
-          value={password.value}
-          onChange={(e) => setPassword({ value: e.currentTarget.value, error: null })}
-        />
-        <Button onClick={auth}>
-          Войти
-        </Button>
+  render() {
+    const { login, password, sublogin } = this.state;
+    return (
+      <div className={classes.wrapper}>
+        <Logo />
+        <div className={classes.card}>
+          <Text fontSize="24px" type="span">API-консолька</Text>
+          <Input
+            label="Логин"
+            error={login.error}
+            value={login.value}
+            onChange={(e) => this.setState({
+              login: { value: e.currentTarget.value, error: null }
+            })}
+          />
+          <Input
+            label="Сублогин"
+            sublabel="Опционально"
+            error={sublogin.error}
+            value={sublogin.value}
+            onChange={(e) => this.setState({
+              sublogin: { value: e.currentTarget.value, error: null }
+            })}
+          />
+          <Input
+            type="password"
+            label="Пароль"
+            error={password.error}
+            value={password.value}
+            onChange={(e) => this.setState({
+              password: { value: e.currentTarget.value, error: null }
+            })}
+          />
+          <Button onClick={this.auth}>
+            Войти
+          </Button>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
