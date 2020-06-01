@@ -2,8 +2,6 @@
 import { AUTH_PENDING, AUTH_ERROR, AUTH_SUCCESS } from '../actions/authActions';
 
 const initialState = {
-  login: '',
-  password: '',
   session: '',
   isAuth: false,
   errorMessage: '',
@@ -29,7 +27,10 @@ export const auth = (state = initialState, action) => {
         isAuth: false,
         session: '',
         isPendingRequest: false,
-        errorMessage: JSON.stringify(action.payload),
+        errorMessage: JSON.stringify({
+          id: action.payload.id,
+          explain: action.payload.explain,
+        }),
       };
     case AUTH_SUCCESS:
       return {

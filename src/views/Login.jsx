@@ -7,6 +7,7 @@ import { Logo } from '../components/Logo';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { tryAuthAsync } from '../store/actions/authActions';
+import { AuthErrorBox } from '../components/AuthErrorBox';
 
 const { classes } = jss.createStyleSheet({
   wrapper: {
@@ -44,8 +45,8 @@ const { classes } = jss.createStyleSheet({
 }).attach();
 
 
-const mapStateToProps = () => ({
-
+const mapStateToProps = (state) => ({
+  errorMessage: state.auth.errorMessage,
 });
 
 
@@ -63,6 +64,7 @@ export const Login = connect(mapStateToProps, mapDispatchToProps)(class extends 
       login: { value: '', error: null },
       sublogin: { value: '', error: null },
       password: { value: '', error: null },
+      showError: false,
     };
   }
 
@@ -103,16 +105,19 @@ export const Login = connect(mapStateToProps, mapDispatchToProps)(class extends 
     }
     if (isValid) {
       tryAuth(login.value, password.value, sublogin.value);
+      this.setState({ showError: true });
     }
   }
 
   render() {
-    const { login, password, sublogin } = this.state;
+    const { showError, login, password, sublogin } = this.state;
+    const { errorMessage } = this.props;
     return (
       <div className={classes.wrapper}>
         <Logo />
         <div className={classes.card}>
           <Text fontSize="24px" type="span">API-консолька</Text>
+          {showError ? <AuthErrorBox message={errorMessage} /> : ''}
           <Input
             label="Логин"
             error={login.error}
