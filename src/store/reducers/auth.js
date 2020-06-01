@@ -1,23 +1,43 @@
 // @ts-check
-import { AUTH } from '../actions/authActions';
+import { AUTH_PENDING, AUTH_ERROR, AUTH_SUCCESS } from '../actions/authActions';
 
 const initialState = {
   login: '',
   password: '',
+  session: '',
   isAuth: false,
   errorMessage: '',
+  isPendingRequest: false,
 };
 
 /**
  * @param {initialState} state
- * @param {{type: string, payload: {login: string, password: string}}} action
+ * @param {{type: string, payload: any}} action
  * @returns {initialState}
  */
 export const auth = (state = initialState, action) => {
   switch (action.type) {
-    case AUTH:
+    case AUTH_PENDING:
       return {
         ...state,
+        isPendingRequest: true,
+        errorMessage: '',
+      };
+    case AUTH_ERROR:
+      return {
+        ...state,
+        isAuth: false,
+        session: '',
+        isPendingRequest: false,
+        errorMessage: JSON.stringify(action.payload),
+      };
+    case AUTH_SUCCESS:
+      return {
+        ...state,
+        isAuth: true,
+        isPendingRequest: false,
+        session: action.payload.session,
+        errorMessage: '',
       };
     default:
       return state;

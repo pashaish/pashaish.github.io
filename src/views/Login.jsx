@@ -6,7 +6,7 @@ import { Text } from '../components/Text';
 import { Logo } from '../components/Logo';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
-import { tryAuth } from '../store/actions/authActions';
+import { tryAuthAsync } from '../store/actions/authActions';
 
 const { classes } = jss.createStyleSheet({
   wrapper: {
@@ -35,7 +35,19 @@ const { classes } = jss.createStyleSheet({
   },
 }).attach();
 
-export class Login extends React.Component {
+
+const mapStateToProps = () => ({
+
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+  tryAuth: (login, password, sublogin) => {
+    dispatch(tryAuthAsync(login, sublogin, password));
+  },
+});
+
+export const Login = connect(mapStateToProps, mapDispatchToProps)(class extends React.Component {
   constructor(props) {
     super(props);
     this.auth = this.auth.bind(this);
@@ -47,34 +59,42 @@ export class Login extends React.Component {
   }
 
   auth() {
-    const { login, password } = this.state;
+    const { login, password, sublogin } = this.state;
+    const { tryAuth } = this.props;
+    let isValid = true;
 
     if (login.value.match(/\s/)) {
       this.setState({
         login: { ...login, error: 'Поле не должно содержать пробелы' },
       });
-    } else
+      isValid = false;
+    }
     if (login.value.toLowerCase().match(/[а-я]/)) {
       this.setState({
-        login: { ...login, error: 'Поле не должно содержать кириллицы' }
+        login: { ...login, error: 'Поле не должно содержать кириллицы' },
       });
-    } else
+      isValid = false;
+    }
     if (password.value.toLowerCase().match(/[а-я]/)) {
       this.setState({
-        password: { ...password, error: 'Поле не должно содержать кириллицы' }
+        password: { ...password, error: 'Поле не должно содержать кириллицы' },
       });
-    } else
+      isValid = false;
+    }
     if (login.value.length < 4) {
       this.setState({
-        login: { ...login, error: 'Поле должно содержать больше 3 символов' }
+        login: { ...login, error: 'Поле должно содержать больше 3 символов' },
       });
-    } else
-    if (password.value.length < 5) {
+      isValid = false;
+    }
+    if (password.value.length < 9) {
       this.setState({
-        login: { ...password, error: 'Поле должно содержать больше 4 символов' }
+        password: { ...password, error: 'Поле должно содержать больше 8 символов' },
       });
-    } else {
-      tryAuth({ login, password: password.value });
+      isValid = false;
+    }
+    if (isValid) {
+      tryAuth(login.value, password.value, sublogin.value);
     }
   }
 
@@ -90,7 +110,7 @@ export class Login extends React.Component {
             error={login.error}
             value={login.value}
             onChange={(e) => this.setState({
-              login: { value: e.currentTarget.value, error: null }
+              login: { value: e.currentTarget.value, error: null },
             })}
           />
           <Input
@@ -99,7 +119,7 @@ export class Login extends React.Component {
             error={sublogin.error}
             value={sublogin.value}
             onChange={(e) => this.setState({
-              sublogin: { value: e.currentTarget.value, error: null }
+              sublogin: { value: e.currentTarget.value, error: null },
             })}
           />
           <Input
@@ -108,7 +128,7 @@ export class Login extends React.Component {
             error={password.error}
             value={password.value}
             onChange={(e) => this.setState({
-              password: { value: e.currentTarget.value, error: null }
+              password: { value: e.currentTarget.value, error: null },
             })}
           />
           <Button onClick={this.auth}>
@@ -118,4 +138,4 @@ export class Login extends React.Component {
       </div>
     );
   }
-}
+});
