@@ -5,6 +5,8 @@ import { Text } from '../components/Text';
 import { Logo } from '../components/Logo';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
+import { tryAuth } from '../store/actions/authActions';
+import { connect } from 'react-redux';
 
 const { classes } = jss.createStyleSheet({
   wrapper: {
@@ -39,11 +41,22 @@ export const Login = () => {
   const [password, setPassword] = React.useState({ value: '', error: null });
 
   const auth = () => {
+    if (login.value.match(/\s/)) {
+      setLogin({ ...login, error: 'Поле не должно содержать пробелы' });
+    } else
+    if (login.value.toLowerCase().match(/[а-я]/)) {
+      setLogin({ ...login, error: 'Поле не должно содержать кириллицы' });
+    } else
+    if (password.value.toLowerCase().match(/[а-я]/)) {
+      setPassword({ ...password, error: 'Поле не должно содержать кириллицы' });
+    } else
     if (login.value.length < 4) {
       setLogin({ ...login, error: 'Поле должно содержать больше 3 символов' });
-    }
+    } else
     if (password.value.length < 5) {
       setPassword({ ...password, error: 'Поле должно содержать больше 4 символов' });
+    } else {
+      tryAuth({ login: login.value, password: password.value });
     }
   };
 

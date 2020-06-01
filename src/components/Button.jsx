@@ -1,3 +1,4 @@
+// @ts-check
 import React from 'react';
 import jss from 'jss';
 
@@ -11,7 +12,6 @@ const { classes } = jss.createStyleSheet({
     border: '0px',
   },
 }).attach();
-
 /**
  * @param {{
  *  children?: any,

@@ -1,3 +1,4 @@
+// @ts-check
 import React from 'react';
 
 export const Logo = () => (

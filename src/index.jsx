@@ -2,7 +2,9 @@
 import './jssInit';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { Login } from './views/Login';
+import { store } from './store/store';
 
 const root = document.getElementById('root');
 
@@ -11,6 +13,8 @@ if (root === null) {
 }
 
 ReactDOM.render(
-  <Login />,
+  <Provider store={store}>
+    <Login />
+  </Provider>,
   root,
 );
