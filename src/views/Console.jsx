@@ -11,7 +11,10 @@ import { Text } from '../components/Text';
 import { TransparentButton } from '../components/TransparentButton';
 import { Button } from '../components/Button';
 import { FormatIcon } from '../icons/FormatIcon';
-import { historyAddAct, historyDeleteAct } from '../store/actions/historyActions';
+import {
+  historyAddAct,
+  historyDeleteAct,
+} from '../store/actions/historyActions';
 
 const { classes } = jss
   .createStyleSheet({
@@ -132,7 +135,11 @@ export const Console = connect(
 
     render() {
       const {
-        logout, login, glutterSize, glutterSizeChange,
+        logout,
+        login,
+        glutterSize,
+        glutterSizeChange,
+        history,
       } = this.props;
       const {
         reqValue, errorMessage, resValue, resValid,
@@ -141,7 +148,7 @@ export const Console = connect(
       return (
         <div className={classes.wrapp}>
           <Header login={login} onLogout={() => logout()} />
-          <HistoryLine />
+          <HistoryLine history={history} />
           <QueryEditor
             glutterSize={glutterSize}
             responceValue={resValue}

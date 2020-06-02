@@ -50,6 +50,7 @@ const { classes } = jss
  *  label?: string,
  *  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
  *  type?: string,
+ *  name?: string,
  *  sublabel?: string,
  *  error?: string | null
  * }} param0
@@ -59,6 +60,7 @@ export const Input = ({
   label = '',
   onChange,
   type = 'input',
+  name = null,
   sublabel = '',
   error = null,
 }) => (
@@ -70,6 +72,7 @@ export const Input = ({
       </Text>
     </div>
     <input
+      name={name}
       type={type}
       className={classes.input}
       value={value}

@@ -1,7 +1,7 @@
 // @ts-check
 
 import { v4 } from 'uuid';
-import { HISTORY_ADD, HISTORY_DELETE } from '../actions/historyActions';
+import { HISTORY_ADD, HISTORY_DELETE, HISTORY_DELETE_ALL } from '../actions/historyActions';
 
 /**
  * @type {{
@@ -73,6 +73,8 @@ export const history = (state = initialState, action) => {
       }].sort((prev, next) => next.timestamp - prev.timestamp).slice(0, 15);
     case HISTORY_DELETE:
       return state.filter((req) => req.id !== action.payload.id);
+    case HISTORY_DELETE_ALL:
+      return [];
     default:
       return state;
   }

@@ -8,7 +8,7 @@ import { Text } from '../components/Text';
 import { LogoIcon } from '../icons/LogoIcon';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
-import { tryAuthAsyncAction } from '../store/actions/authActions';
+import { tryAuthAsyncAct } from '../store/actions/authActions';
 import { AuthErrorBox } from '../components/AuthErrorBox';
 
 const { classes } = jss
@@ -58,7 +58,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   tryAuth: (login, password, sublogin) => {
-    dispatch(tryAuthAsyncAction(login, sublogin, password));
+    dispatch(tryAuthAsyncAct(login, sublogin, password));
   },
 });
 
@@ -140,6 +140,7 @@ export const Login = connect(
             {showError ? <AuthErrorBox message={errorMessage} /> : ''}
             <Input
               label="Логин"
+              name="login"
               error={login.error}
               value={login.value}
               onChange={(e) => this.setState({
@@ -147,6 +148,7 @@ export const Login = connect(
               })}
             />
             <Input
+              name="sublogin"
               label="Сублогин"
               sublabel="Опционально"
               error={sublogin.error}
@@ -156,6 +158,7 @@ export const Login = connect(
               })}
             />
             <Input
+              name="password"
               type="password"
               label="Пароль"
               error={password.error}
