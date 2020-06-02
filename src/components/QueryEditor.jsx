@@ -1,15 +1,12 @@
 
 import React from 'react';
-import AceEditor from 'react-ace';
 import jss from 'jss';
 import SplitPane from 'react-split';
-
-import 'ace-builds/src-noconflict/mode-json';
-import 'ace-builds/src-noconflict/theme-github';
 
 const { classes } = jss.createStyleSheet({
   wrap: {
     padding: '15px',
+    height: '100%',
   },
   editor: {
     background: '#FFFFFF',
@@ -20,17 +17,26 @@ const { classes } = jss.createStyleSheet({
   },
   split_pane: {
     display: 'flex',
+    height: '100%',
   },
   resizer: {
     width: '10px',
   },
+  txtarea: {
+    border: 'none',
+    resize: 'none',
+    outline: 'none',
+    width: '100%',
+    height: '100%',
+  },
 }).attach();
 
-export const QueryEditor = () => (
+export const QueryEditor = ({ onGlutterSizeChange, glutterSize }) => (
   <div className={classes.wrap}>
     <SplitPane
+      onDragEnd={(e) => onGlutterSizeChange(parseInt(e[0], 10))}
       className={classes.split_pane}
-      sizes={[50, 50]}
+      sizes={[glutterSize, 100 - glutterSize]}
       minSize={50}
       expandToMin={false}
       gutterSize={20}
@@ -41,35 +47,10 @@ export const QueryEditor = () => (
       cursor="col-resize"
     >
       <div className={classes.editor}>
-        <AceEditor
-          fontSize="14px"
-          showPrintMargin={false}
-          showGutter={false}
-          mode="json"
-          width="auto"
-          theme="github"
-          onChange={() => {}}
-          editorProps={{
-
-          }}
-          name="response"
-        />
+        <textarea className={classes.txtarea} />
       </div>
       <div className={classes.editor}>
-        <AceEditor
-          readOnly
-          showPrintMargin={false}
-          fontSize="14px"
-          showGutter={false}
-          mode="json"
-          width="auto"
-          theme="github"
-          onChange={() => {}}
-          editorProps={{
-
-          }}
-          name="request"
-        />
+        <textarea className={classes.txtarea} />
       </div>
     </SplitPane>
   </div>

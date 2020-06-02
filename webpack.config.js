@@ -15,7 +15,7 @@ module.exports = {
         "style-loader",
         "css-loader"
       ]
-    }]
+    }, {test: /\.svg$/, loader: 'file-loader'}],
   },
   resolve: {
     extensions: ['.json', '.js', '.jsx']
