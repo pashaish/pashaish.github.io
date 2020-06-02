@@ -1,5 +1,7 @@
 import React from 'react';
 
-export const HistoryLine = () => {
-
-};
+export const HistoryLine = () => (
+  <div>
+    HistoryLine
+  </div>
+);

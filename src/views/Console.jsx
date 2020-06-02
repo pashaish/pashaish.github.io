@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 // import jss from 'jss';
 import { logoutAction } from '../store/actions/authActions';
 import { Header } from '../components/Header';
+import { HistoryLine } from '../components/HistoryLine';
 
 // const { classes } = jss.createStyleSheet({
 
@@ -35,6 +36,7 @@ export const Console = connect(
       return (
         <>
           <Header login={login} onLogout={() => logout()} />
+          <HistoryLine />
         </>
       );
     }
