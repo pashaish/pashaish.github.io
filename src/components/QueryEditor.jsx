@@ -2,6 +2,7 @@
 import React from 'react';
 import jss from 'jss';
 import SplitPane from 'react-split';
+import { Text } from './Text';
 
 const { classes } = jss.createStyleSheet({
   wrap: {
@@ -14,6 +15,14 @@ const { classes } = jss.createStyleSheet({
     boxSizing: 'border-box',
     borderRadius: '5px',
     padding: '5px',
+  },
+  editorError: {
+    borderColor: '#CF2C00',
+    'box-shadow': '0px 0px 5px rgba(207, 44, 0, 0.5)',
+  },
+  errorMessage: {
+    position: 'relative',
+    top: '-25px',
   },
   split_pane: {
     display: 'flex',
@@ -29,9 +38,18 @@ const { classes } = jss.createStyleSheet({
     width: '100%',
     height: '100%',
   },
+  errorTxt: {
+    color: '#CF2C00',
+  },
 }).attach();
 
-export const QueryEditor = ({ onGlutterSizeChange, glutterSize }) => (
+export const QueryEditor = ({
+  onGlutterSizeChange,
+  glutterSize,
+  requestValue,
+  onReqChange,
+  errorMessage,
+}) => (
   <div className={classes.wrap}>
     <SplitPane
       onDragEnd={(e) => onGlutterSizeChange(parseInt(e[0], 10))}
@@ -46,11 +64,33 @@ export const QueryEditor = ({ onGlutterSizeChange, glutterSize }) => (
       direction="horizontal"
       cursor="col-resize"
     >
-      <div className={classes.editor}>
-        <textarea className={classes.txtarea} />
+      <div className={`${classes.editor} ${errorMessage ? classes.editorError : ''}`}>
+        <textarea
+          value={requestValue}
+          onChange={(e) => onReqChange(e.currentTarget.value)}
+          onKeyDown={(e) => {
+            if (e.keyCode === 9 || e.which === 9) {
+              e.preventDefault();
+              const s = e.currentTarget.selectionStart;
+              e.currentTarget.value = `${e.currentTarget.value.substring(0, e.currentTarget.selectionStart)}  ${e.currentTarget.value.substring(e.currentTarget.selectionEnd)}`;
+              e.currentTarget.selectionEnd = s + 2;
+            }
+          }}
+          className={`${classes.txtarea}`}
+        />
+        {errorMessage
+          ? (
+            <Text className={`${classes.errorTxt} ${classes.errorMessage}`}>
+              {errorMessage}
+            </Text>
+          )
+          : ''}
       </div>
       <div className={classes.editor}>
-        <textarea className={classes.txtarea} />
+        <textarea
+          readOnly
+          className={classes.txtarea}
+        />
       </div>
     </SplitPane>
   </div>

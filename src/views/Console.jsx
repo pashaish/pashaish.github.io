@@ -7,6 +7,8 @@ import { HistoryLine } from '../components/HistoryLine';
 import { QueryEditor } from '../components/QueryEditor';
 import { changeGlutter } from '../store/actions/consoleApiActions';
 import { Text } from '../components/Text';
+import { TransparentButton } from '../components/TransparentButton';
+import { FormatIcon } from '../icons/FormatIcon';
 
 const { classes } = jss.createStyleSheet({
   wrapp: {
@@ -42,25 +44,46 @@ export const Console = connect(
     constructor(props) {
       super(props);
       this.state = {
-        //
+        reqValue: '',
+        errorMessage: '',
       };
+    }
+
+    reqJsonFormat() {
+      const { reqValue } = this.state;
+      try {
+        const formatedJson = JSON.stringify(JSON.parse(reqValue), null, '  ');
+        this.setState({ reqValue: formatedJson });
+      } catch (e) {
+        this.setState({ errorMessage: e.message });
+      }
     }
 
     render() {
       const {
         logout, login, glutterSize, glutterSizeChange,
       } = this.props;
+      const { reqValue, errorMessage } = this.state;
+
       return (
         <div className={classes.wrapp}>
           <Header login={login} onLogout={() => logout()} />
           <HistoryLine />
           <QueryEditor
             glutterSize={glutterSize}
+            requestValue={reqValue}
+            errorMessage={errorMessage}
+            onReqChange={(e) => this.setState({ reqValue: e, errorMessage: '' })}
             onGlutterSizeChange={(e) => {
               glutterSizeChange(e);
             }}
           />
-          <Text>Action panel</Text>
+          <TransparentButton onClick={() => this.reqJsonFormat()}>
+            <FormatIcon />
+            <Text fontSize="16px">
+              Форматировать
+            </Text>
+          </TransparentButton>
         </div>
       );
     }
