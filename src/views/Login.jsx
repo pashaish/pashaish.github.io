@@ -175,7 +175,7 @@ export const Login = connect(
                   />
                 </div>
               ) : (
-                'Войти'
+                <Text fontSize="16px">Войти</Text>
               )}
             </Button>
           </div>

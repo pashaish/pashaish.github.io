@@ -8,6 +8,7 @@ import { QueryEditor } from '../components/QueryEditor';
 import { changeGlutter } from '../store/actions/consoleApiActions';
 import { Text } from '../components/Text';
 import { TransparentButton } from '../components/TransparentButton';
+import { Button } from '../components/Button';
 import { FormatIcon } from '../icons/FormatIcon';
 
 const { classes } = jss
@@ -20,6 +21,31 @@ const { classes } = jss
       right: 0,
       top: 0,
       bottom: 0,
+    },
+    footer: {
+      height: '60px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignContent: 'center',
+      flexDirection: 'row',
+      padding: '5px 15px',
+      '& > *': {
+        margin: 'auto',
+      },
+    },
+    spacer: {
+      width: '100%',
+      height: '100%',
+    },
+    href: {
+      color: '#999999',
+      textDecoration: 'none',
+      '& *': {
+        color: '#999999',
+      },
+    },
+    btn: {
+      padding: '10px',
     },
   })
   .attach();
@@ -80,10 +106,22 @@ export const Console = connect(
               glutterSizeChange(e);
             }}
           />
-          <TransparentButton onClick={() => this.reqJsonFormat()}>
-            <FormatIcon />
-            <Text fontSize="16px">Форматировать</Text>
-          </TransparentButton>
+          <div className={classes.footer}>
+            <Button className={classes.btn}>
+              <Text fontSize="16px">
+                Отправить
+              </Text>
+            </Button>
+            <div className={classes.spacer} />
+            <a className={classes.href} href="https://github.com/pashaish">
+              <Text>https://github.com/pashaish</Text>
+            </a>
+            <div className={classes.spacer} />
+            <TransparentButton onClick={() => this.reqJsonFormat()}>
+              <FormatIcon />
+              <Text fontSize="16px">Форматировать</Text>
+            </TransparentButton>
+          </div>
         </div>
       );
     }

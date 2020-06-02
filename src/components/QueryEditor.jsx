@@ -6,8 +6,9 @@ import { Text } from './Text';
 const { classes } = jss
   .createStyleSheet({
     wrap: {
-      padding: '15px',
+      padding: '30px 15px',
       height: '100%',
+      borderBottom: '1px solid rgba(0, 0, 0, 0.2)',
     },
     editor: {
       background: '#FFFFFF',
@@ -26,7 +27,6 @@ const { classes } = jss
     },
     split_pane: {
       display: 'flex',
-      height: '100%',
     },
     resizer: {
       width: '10px',
@@ -36,10 +36,12 @@ const { classes } = jss
       resize: 'none',
       outline: 'none',
       width: '100%',
-      height: '100%',
     },
     errorTxt: {
       color: '#CF2C00',
+    },
+    fullHeight: {
+      height: '100%',
     },
   })
   .attach();
@@ -54,7 +56,7 @@ export const QueryEditor = ({
   <div className={classes.wrap}>
     <SplitPane
       onDragEnd={(e) => onGlutterSizeChange(parseInt(e[0], 10))}
-      className={classes.split_pane}
+      className={`${classes.split_pane} ${classes.fullHeight}`}
       sizes={[glutterSize, 100 - glutterSize]}
       minSize={50}
       expandToMin={false}
@@ -65,39 +67,45 @@ export const QueryEditor = ({
       direction="horizontal"
       cursor="col-resize"
     >
-      <div
-        className={`${classes.editor} ${
-          errorMessage ? classes.editorError : ''
-        }`}
-      >
-        <textarea
-          value={requestValue}
-          onChange={(e) => onReqChange(e.currentTarget.value)}
-          onKeyDown={(e) => {
-            if (e.keyCode === 9 || e.which === 9) {
-              e.preventDefault();
-              const s = e.currentTarget.selectionStart;
-              e.currentTarget.value = `${e.currentTarget.value.substring(
-                0,
-                e.currentTarget.selectionStart,
-              )}  ${e.currentTarget.value.substring(
-                e.currentTarget.selectionEnd,
-              )}`;
-              e.currentTarget.selectionEnd = s + 2;
-            }
-          }}
-          className={`${classes.txtarea}`}
-        />
-        {errorMessage ? (
-          <Text className={`${classes.errorTxt} ${classes.errorMessage}`}>
-            {errorMessage}
-          </Text>
-        ) : (
-          ''
-        )}
+      <div className={classes.fullHeight}>
+        <Text className={errorMessage ? classes.errorTxt : ''}>Запрос</Text>
+        <div
+          className={`${classes.editor} ${classes.fullHeight} ${
+            errorMessage ? classes.editorError : ''
+          }`}
+        >
+          <textarea
+            value={requestValue}
+            onChange={(e) => onReqChange(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.keyCode === 9 || e.which === 9) {
+                e.preventDefault();
+                const s = e.currentTarget.selectionStart;
+                e.currentTarget.value = `${e.currentTarget.value.substring(
+                  0,
+                  e.currentTarget.selectionStart,
+                )}  ${e.currentTarget.value.substring(
+                  e.currentTarget.selectionEnd,
+                )}`;
+                e.currentTarget.selectionEnd = s + 2;
+              }
+            }}
+            className={`${classes.txtarea} ${classes.fullHeight}`}
+          />
+          {errorMessage ? (
+            <Text className={`${classes.errorTxt} ${classes.errorMessage}`}>
+              {errorMessage}
+            </Text>
+          ) : (
+            ''
+          )}
+        </div>
       </div>
-      <div className={classes.editor}>
-        <textarea readOnly className={classes.txtarea} />
+      <div className={classes.fullHeight}>
+        <Text className={errorMessage ? classes.errorTxt : ''}>Ответ</Text>
+        <div className={`${classes.editor} ${classes.fullHeight}`}>
+          <textarea readOnly className={`${classes.txtarea} ${classes.fullHeight}`} />
+        </div>
       </div>
     </SplitPane>
   </div>

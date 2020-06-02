@@ -41,10 +41,11 @@ const { classes } = jss
  * @param {{
  *  children?: any,
  *  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+ *  className: string,
  * }} param0
  */
-export const Button = ({ children = '', onClick }) => (
-  <button className={classes.button} onClick={onClick} type="button">
-    <Text className={classes.text}>{children}</Text>
+export const Button = ({ children = '', onClick, className }) => (
+  <button className={`${classes.button} ${className}`} onClick={onClick} type="button">
+    {children}
   </button>
 );
