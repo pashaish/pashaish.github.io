@@ -10,17 +10,19 @@ import { Text } from '../components/Text';
 import { TransparentButton } from '../components/TransparentButton';
 import { FormatIcon } from '../icons/FormatIcon';
 
-const { classes } = jss.createStyleSheet({
-  wrapp: {
-    position: 'absolute',
-    display: 'flex',
-    flexDirection: 'column',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-  },
-}).attach();
+const { classes } = jss
+  .createStyleSheet({
+    wrapp: {
+      position: 'absolute',
+      display: 'flex',
+      flexDirection: 'column',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+    },
+  })
+  .attach();
 
 const mapStateToProps = (state) => ({
   login: state.auth.login,
@@ -80,9 +82,7 @@ export const Console = connect(
           />
           <TransparentButton onClick={() => this.reqJsonFormat()}>
             <FormatIcon />
-            <Text fontSize="16px">
-              Форматировать
-            </Text>
+            <Text fontSize="16px">Форматировать</Text>
           </TransparentButton>
         </div>
       );
