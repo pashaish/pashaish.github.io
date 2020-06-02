@@ -1,7 +1,6 @@
 // @ts-check
 import React from 'react';
 import jss from 'jss';
-import { Text } from './Text';
 
 const { classes } = jss
   .createStyleSheet({
@@ -45,7 +44,11 @@ const { classes } = jss
  * }} param0
  */
 export const Button = ({ children = '', onClick, className }) => (
-  <button className={`${classes.button} ${className}`} onClick={onClick} type="button">
+  <button
+    className={`${classes.button} ${className}`}
+    onClick={onClick}
+    type="button"
+  >
     {children}
   </button>
 );

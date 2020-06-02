@@ -50,7 +50,9 @@ export const QueryEditor = ({
   onGlutterSizeChange,
   glutterSize,
   requestValue,
+  responceValue,
   onReqChange,
+  resValid,
   errorMessage,
 }) => (
   <div className={classes.wrap}>
@@ -102,9 +104,17 @@ export const QueryEditor = ({
         </div>
       </div>
       <div className={classes.fullHeight}>
-        <Text className={errorMessage ? classes.errorTxt : ''}>Ответ</Text>
-        <div className={`${classes.editor} ${classes.fullHeight}`}>
-          <textarea readOnly className={`${classes.txtarea} ${classes.fullHeight}`} />
+        <Text className={!resValid ? classes.errorTxt : ''}>Ответ</Text>
+        <div
+          className={`${classes.editor} ${classes.fullHeight} ${
+            !resValid ? classes.editorError : ''
+          }`}
+        >
+          <textarea
+            value={responceValue}
+            readOnly
+            className={`${classes.txtarea} ${classes.fullHeight}`}
+          />
         </div>
       </div>
     </SplitPane>

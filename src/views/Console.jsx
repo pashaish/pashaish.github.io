@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import jss from 'jss';
+import Sendsay from 'sendsay-api';
 import { logoutAction } from '../store/actions/authActions';
 import { Header } from '../components/Header';
 import { HistoryLine } from '../components/HistoryLine';
@@ -52,6 +53,7 @@ const { classes } = jss
 
 const mapStateToProps = (state) => ({
   login: state.auth.login,
+  session: state.auth.session,
   glutterSize: state.consoleApi.glutter,
 });
 
@@ -73,8 +75,12 @@ export const Console = connect(
       super(props);
       this.state = {
         reqValue: '',
+        resValue: '',
         errorMessage: '',
+        resValid: true,
       };
+      this.reqJsonFormat = this.reqJsonFormat.bind(this);
+      this.request = this.request.bind(this);
     }
 
     reqJsonFormat() {
@@ -82,16 +88,45 @@ export const Console = connect(
       try {
         const formatedJson = JSON.stringify(JSON.parse(reqValue), null, '  ');
         this.setState({ reqValue: formatedJson });
+        return true;
       } catch (e) {
         this.setState({ errorMessage: e.message });
       }
+      return false;
+    }
+
+    request() {
+      if (!this.reqJsonFormat()) {
+        return;
+      }
+      const { session } = this.props;
+      const { reqValue } = this.state;
+      const ss = new Sendsay();
+      ss.request({
+        ...JSON.parse(reqValue),
+        session,
+      })
+        .then((e) => {
+          this.setState({
+            resValue: JSON.stringify(e, null, '  '),
+            resValid: true,
+          });
+        })
+        .catch((e) => {
+          this.setState({
+            resValue: JSON.stringify(e, null, '  '),
+            resValid: false,
+          });
+        });
     }
 
     render() {
       const {
         logout, login, glutterSize, glutterSizeChange,
       } = this.props;
-      const { reqValue, errorMessage } = this.state;
+      const {
+        reqValue, errorMessage, resValue, resValid,
+      } = this.state;
 
       return (
         <div className={classes.wrapp}>
@@ -99,7 +134,9 @@ export const Console = connect(
           <HistoryLine />
           <QueryEditor
             glutterSize={glutterSize}
+            responceValue={resValue}
             requestValue={reqValue}
+            resValid={resValid}
             errorMessage={errorMessage}
             onReqChange={(e) => this.setState({ reqValue: e, errorMessage: '' })}
             onGlutterSizeChange={(e) => {
@@ -107,10 +144,8 @@ export const Console = connect(
             }}
           />
           <div className={classes.footer}>
-            <Button className={classes.btn}>
-              <Text fontSize="16px">
-                Отправить
-              </Text>
+            <Button className={classes.btn} onClick={() => this.request()}>
+              <Text fontSize="16px">Отправить</Text>
             </Button>
             <div className={classes.spacer} />
             <a className={classes.href} href="https://github.com/pashaish">

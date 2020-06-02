@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const FullscreenIcon = () => (
+export const FullscreenInIcon = () => (
   <svg
     width="20"
     height="20"

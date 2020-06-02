@@ -3,8 +3,9 @@ import jss from 'jss';
 import { LogoIcon } from '../icons/LogoIcon';
 import { Text } from './Text';
 import { LogoutIcon } from '../icons/LogoutIcon';
-import { FullscreenIcon } from '../icons/FullscreenIcon';
+import { FullscreenInIcon } from '../icons/FullscreenInIcon';
 import { TransparentButton } from './TransparentButton';
+import { FullscreenOutIcon } from '../icons/FullscreenOutIcon';
 
 const { classes } = jss
   .createStyleSheet({
@@ -62,7 +63,7 @@ export const Header = ({ login = '', onLogout = () => {} }) => {
           <LogoutIcon />
         </TransparentButton>
         <TransparentButton onClick={() => fullscreenToggle()}>
-          <FullscreenIcon />
+          {isFullscreen ? <FullscreenOutIcon /> : <FullscreenInIcon />}
         </TransparentButton>
       </div>
     </>
