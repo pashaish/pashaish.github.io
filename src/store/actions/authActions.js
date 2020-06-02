@@ -5,7 +5,7 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
-export const tryAuthAsyncAction = (login, sublogin, password) => (dispatch) => {
+export const tryAuthAsyncAct = (login, sublogin, password) => (dispatch) => {
   dispatch({ type: AUTH_PENDING });
   const sendsay = new Sendsay();
   sendsay.login({
@@ -24,11 +24,11 @@ export const tryAuthAsyncAction = (login, sublogin, password) => (dispatch) => {
   });
 };
 
-export const logoutAction = () => ({
+export const logoutAct = () => ({
   type: AUTH_LOGOUT,
 });
 
-export const checkAuthAsyncAction = (session) => (dispatch) => {
+export const checkAuthAsyncAct = (session) => (dispatch) => {
   const sendsay = new Sendsay();
   sendsay.request({
     session,

@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import jss from 'jss';
 import Sendsay from 'sendsay-api';
-import { logoutAction } from '../store/actions/authActions';
+import { logoutAct } from '../store/actions/authActions';
 import { Header } from '../components/Header';
 import { HistoryLine } from '../components/HistoryLine';
 import { QueryEditor } from '../components/QueryEditor';
-import { changeGlutter } from '../store/actions/consoleApiActions';
+import { changeGlutterAct } from '../store/actions/consoleApiActions';
 import { Text } from '../components/Text';
 import { TransparentButton } from '../components/TransparentButton';
 import { Button } from '../components/Button';
 import { FormatIcon } from '../icons/FormatIcon';
+import { historyAddAct, historyDeleteAct } from '../store/actions/historyActions';
 
 const { classes } = jss
   .createStyleSheet({
@@ -55,14 +56,21 @@ const mapStateToProps = (state) => ({
   login: state.auth.login,
   session: state.auth.session,
   glutterSize: state.consoleApi.glutter,
+  history: state.history,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   logout: () => {
-    dispatch(logoutAction());
+    dispatch(logoutAct());
+  },
+  historyAdd: (body, isValid) => {
+    dispatch(historyAddAct(body, isValid));
+  },
+  historyDelete: (id) => {
+    dispatch(historyDeleteAct(id));
   },
   glutterSizeChange: (size) => {
-    dispatch(changeGlutter(size));
+    dispatch(changeGlutterAct(size));
   },
 });
 
@@ -99,7 +107,7 @@ export const Console = connect(
       if (!this.reqJsonFormat()) {
         return;
       }
-      const { session } = this.props;
+      const { session, historyAdd } = this.props;
       const { reqValue } = this.state;
       const ss = new Sendsay();
       ss.request({
@@ -111,12 +119,14 @@ export const Console = connect(
             resValue: JSON.stringify(e, null, '  '),
             resValid: true,
           });
+          historyAdd(reqValue, true);
         })
         .catch((e) => {
           this.setState({
             resValue: JSON.stringify(e, null, '  '),
             resValid: false,
           });
+          historyAdd(reqValue, true);
         });
     }
 

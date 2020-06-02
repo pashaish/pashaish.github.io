@@ -23,6 +23,9 @@ module.exports = {
     ],
     "rules": {
         "import/prefer-default-export": "off",
-        "react/prop-types": 'off'
+        "react/prop-types": "off",
+        "no-continue": "off",
+        "no-case-declarations": "off",
+        "no-restricted-syntax": "off"
     }
 };

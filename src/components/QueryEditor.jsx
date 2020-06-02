@@ -35,6 +35,8 @@ const { classes } = jss
       border: 'none',
       resize: 'none',
       outline: 'none',
+      fontFamily: 'monospace',
+      fontSize: '14px',
       width: '100%',
     },
     errorTxt: {

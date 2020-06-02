@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { checkAuthAsyncAction } from '../store/actions/authActions';
+import { checkAuthAsyncAct } from '../store/actions/authActions';
 import { Login } from './Login';
 import { Console } from './Console';
 
@@ -11,7 +11,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   checkAuth: (login, password, sublogin) => {
-    dispatch(checkAuthAsyncAction(login, sublogin, password));
+    dispatch(checkAuthAsyncAct(login, sublogin, password));
   },
 });
 
