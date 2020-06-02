@@ -4,6 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "dependencies": {
+    "ace-builds": "^1.4.11",
     "babel-loader": "^8.1.0",
     "jss": "^10.1.1",
     "jss-plugin-camel-case": "^10.1.1",
@@ -12,6 +13,7 @@
     "jss-plugin-vendor-prefixer": "^10.1.1",
     "jss-preset-default": "^10.1.1",
     "react": "^16.13.1",
+    "react-ace": "^9.0.0",
     "react-dom": "^16.13.1",
     "react-loader-spinner": "^3.1.14",
     "react-redux": "^7.2.0",
