@@ -1,7 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import jss from 'jss';
 import SplitPane from 'react-split';
 import { Text } from './Text';
+import { DragIcon } from '../icons/DragIcon';
 
 const { classes } = jss
   .createStyleSheet({
@@ -48,6 +50,12 @@ const { classes } = jss
     titleEditor: {
       color: '#999999',
     },
+    glutter: {
+      display: 'flex',
+      width: '20px',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   })
   .attach();
 
@@ -73,6 +81,12 @@ export const QueryEditor = ({
       dragInterval={1}
       direction="horizontal"
       cursor="col-resize"
+      gutter={() => {
+        const gl = document.createElement('div');
+        gl.className = classes.glutter;
+        ReactDOM.render(<DragIcon />, gl);
+        return gl;
+      }}
     >
       <div className={classes.fullHeight}>
         <Text fontSize="12px" className={errorMessage ? classes.errorTxt : classes.titleEditor}>Запрос:</Text>
