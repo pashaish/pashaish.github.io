@@ -176,7 +176,10 @@ export const Console = connect(
             }}
           />
           <div className={classes.footer}>
-            <Button className={classes.btn} onClick={() => this.request(reqValue)}>
+            <Button
+              className={classes.btn}
+              onClick={() => this.request(reqValue)}
+            >
               <Text fontSize="16px">Отправить</Text>
             </Button>
             <div className={classes.spacer} />

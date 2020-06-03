@@ -56,7 +56,10 @@ const { classes } = jss
   .attach();
 
 export const HistoryLine = ({
-  history, onHistoryClear, onDeleteRecord, onRunRecord,
+  history,
+  onHistoryClear,
+  onDeleteRecord,
+  onRunRecord,
 }) => {
   const [scroll, setScroll] = React.useState(0);
   let scrollElement = null;
@@ -67,7 +70,11 @@ export const HistoryLine = ({
     } else if (scrollElement) {
       const newScroll = scroll + (Math.abs(deltaY) / deltaY) * 30;
       const clearBtnWidth = 53;
-      const min = -(scrollElement.offsetWidth - window.innerWidth + clearBtnWidth);
+      const min = -(
+        scrollElement.offsetWidth
+        - window.innerWidth
+        + clearBtnWidth
+      );
       if (min > newScroll) {
         setScroll(min);
       } else if (newScroll > 0) {
@@ -85,7 +92,9 @@ export const HistoryLine = ({
         className={classes.historyLine}
       >
         <div
-          ref={(el) => { scrollElement = el; }}
+          ref={(el) => {
+            scrollElement = el;
+          }}
           className={classes.scroll}
           style={{ marginLeft: `${scroll}px` }}
         >

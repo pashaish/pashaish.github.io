@@ -112,9 +112,11 @@ export class HistoryRecord extends React.Component {
 
   copy() {
     const { record } = this.props;
-    navigator.clipboard.writeText(JSON.stringify(JSON.parse(record.body), null, '  ')).then(() => {
-      this.copyNotify();
-    });
+    navigator.clipboard
+      .writeText(JSON.stringify(JSON.parse(record.body), null, '  '))
+      .then(() => {
+        this.copyNotify();
+      });
   }
 
   render() {
@@ -132,10 +134,18 @@ export class HistoryRecord extends React.Component {
         }}
       >
         <div className={classes.requestLabel}>
-          <div className={`${classes.copyLabel} ${isCopied ? classes.isCopied : classes.isNotCopied}`}>
+          <div
+            className={`${classes.copyLabel} ${
+              isCopied ? classes.isCopied : classes.isNotCopied
+            }`}
+          >
             <Text fontSize="12px">Скопировано</Text>
           </div>
-          <div className={`${classes.status} ${record.isValid ? classes.valid : classes.notValid}`} />
+          <div
+            className={`${classes.status} ${
+              record.isValid ? classes.valid : classes.notValid
+            }`}
+          />
           <Text className={classes.txt}>{JSON.parse(record.body).action}</Text>
           <DragIcon />
         </div>

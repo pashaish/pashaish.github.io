@@ -89,7 +89,12 @@ export const QueryEditor = ({
       }}
     >
       <div className={classes.fullHeight}>
-        <Text fontSize="12px" className={errorMessage ? classes.errorTxt : classes.titleEditor}>Запрос:</Text>
+        <Text
+          fontSize="12px"
+          className={errorMessage ? classes.errorTxt : classes.titleEditor}
+        >
+          Запрос:
+        </Text>
         <div
           className={`${classes.editor} ${classes.fullHeight} ${
             errorMessage ? classes.editorError : ''
@@ -123,7 +128,12 @@ export const QueryEditor = ({
         </div>
       </div>
       <div className={classes.fullHeight}>
-        <Text fontSize="12px" className={!resValid ? classes.errorTxt : classes.titleEditor}>Ответ:</Text>
+        <Text
+          fontSize="12px"
+          className={!resValid ? classes.errorTxt : classes.titleEditor}
+        >
+          Ответ:
+        </Text>
         <div
           className={`${classes.editor} ${classes.fullHeight} ${
             !resValid ? classes.editorError : ''
