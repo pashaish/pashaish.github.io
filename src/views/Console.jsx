@@ -20,6 +20,7 @@ import {
 const { classes } = jss
   .createStyleSheet({
     wrapp: {
+      overflow: 'hidden',
       position: 'absolute',
       display: 'flex',
       flexDirection: 'column',

@@ -54,6 +54,7 @@ const { classes } = jss
       fontSize: '21px',
     },
     dropdown: {
+      zIndex: 1,
       width: '100%',
       position: 'absolute',
       background: '#FFFFFF',
