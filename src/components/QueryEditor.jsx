@@ -6,7 +6,7 @@ import { Text } from './Text';
 const { classes } = jss
   .createStyleSheet({
     wrap: {
-      padding: '30px 15px',
+      padding: '10px 15px 30px 15px',
       height: '100%',
       borderBottom: '1px solid rgba(0, 0, 0, 0.2)',
     },
@@ -45,6 +45,9 @@ const { classes } = jss
     fullHeight: {
       height: '100%',
     },
+    titleEditor: {
+      color: '#999999',
+    },
   })
   .attach();
 
@@ -72,7 +75,7 @@ export const QueryEditor = ({
       cursor="col-resize"
     >
       <div className={classes.fullHeight}>
-        <Text className={errorMessage ? classes.errorTxt : ''}>Запрос</Text>
+        <Text fontSize="12px" className={errorMessage ? classes.errorTxt : classes.titleEditor}>Запрос:</Text>
         <div
           className={`${classes.editor} ${classes.fullHeight} ${
             errorMessage ? classes.editorError : ''
@@ -106,7 +109,7 @@ export const QueryEditor = ({
         </div>
       </div>
       <div className={classes.fullHeight}>
-        <Text className={!resValid ? classes.errorTxt : ''}>Ответ</Text>
+        <Text fontSize="12px" className={!resValid ? classes.errorTxt : classes.titleEditor}>Ответ:</Text>
         <div
           className={`${classes.editor} ${classes.fullHeight} ${
             !resValid ? classes.editorError : ''

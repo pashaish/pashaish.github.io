@@ -12,10 +12,12 @@ const { classes } = jss
       justifyContent: 'center',
       alignItems: 'center',
       marginLeft: '10px',
+      height: '100%',
+      widows: '100%',
       marginRight: '10px',
       '&:focus': {
         color: '#0055FB',
-        outline: '2px solid #45A5FF',
+        outline: '0',
         stroke: '#0055FB',
       },
       '&:hover': {

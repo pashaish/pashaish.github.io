@@ -63,7 +63,7 @@ export const history = (state = initialState, action) => {
           id: obj.id,
           isValid: action.payload.isValid,
           timestamp: new Date().getTime(),
-        } : req));
+        } : req)).sort((prev, next) => next.timestamp - prev.timestamp);
       }
       return [...state, {
         id: v4(),

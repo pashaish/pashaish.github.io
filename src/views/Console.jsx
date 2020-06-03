@@ -14,6 +14,7 @@ import { FormatIcon } from '../icons/FormatIcon';
 import {
   historyAddAct,
   historyDeleteAct,
+  historyDeleteAllAct,
 } from '../store/actions/historyActions';
 
 const { classes } = jss
@@ -72,6 +73,9 @@ const mapDispatchToProps = (dispatch) => ({
   historyDelete: (id) => {
     dispatch(historyDeleteAct(id));
   },
+  historyDeleteAll: () => {
+    dispatch(historyDeleteAllAct());
+  },
   glutterSizeChange: (size) => {
     dispatch(changeGlutterAct(size));
   },
@@ -94,8 +98,7 @@ export const Console = connect(
       this.request = this.request.bind(this);
     }
 
-    reqJsonFormat() {
-      const { reqValue } = this.state;
+    reqJsonFormat(reqValue) {
       try {
         const formatedJson = JSON.stringify(JSON.parse(reqValue), null, '  ');
         this.setState({ reqValue: formatedJson });
@@ -106,12 +109,11 @@ export const Console = connect(
       return false;
     }
 
-    request() {
-      if (!this.reqJsonFormat()) {
+    request(reqValue) {
+      if (!this.reqJsonFormat(reqValue)) {
         return;
       }
       const { session, historyAdd } = this.props;
-      const { reqValue } = this.state;
       const ss = new Sendsay();
       ss.request({
         ...JSON.parse(reqValue),
@@ -122,14 +124,16 @@ export const Console = connect(
             resValue: JSON.stringify(e, null, '  '),
             resValid: true,
           });
-          historyAdd(reqValue, true);
+          historyAdd(reqValue.replace(/\s/gim, ''), true);
+          this.setState({ reqValue });
         })
         .catch((e) => {
           this.setState({
             resValue: JSON.stringify(e, null, '  '),
             resValid: false,
           });
-          historyAdd(reqValue, true);
+          historyAdd(reqValue.replace(/\s/gim, ''), false);
+          this.setState({ reqValue });
         });
     }
 
@@ -139,7 +143,9 @@ export const Console = connect(
         login,
         glutterSize,
         glutterSizeChange,
+        historyDelete,
         history,
+        historyDeleteAll,
       } = this.props;
       const {
         reqValue, errorMessage, resValue, resValid,
@@ -148,7 +154,16 @@ export const Console = connect(
       return (
         <div className={classes.wrapp}>
           <Header login={login} onLogout={() => logout()} />
-          <HistoryLine history={history} />
+          <HistoryLine
+            history={history}
+            onHistoryClear={() => historyDeleteAll()}
+            onDeleteRecord={(id) => {
+              historyDelete(id);
+            }}
+            onRunRecord={(body) => {
+              this.request(JSON.stringify(JSON.parse(body), null, '  '));
+            }}
+          />
           <QueryEditor
             glutterSize={glutterSize}
             responceValue={resValue}
@@ -161,7 +176,7 @@ export const Console = connect(
             }}
           />
           <div className={classes.footer}>
-            <Button className={classes.btn} onClick={() => this.request()}>
+            <Button className={classes.btn} onClick={() => this.request(reqValue)}>
               <Text fontSize="16px">Отправить</Text>
             </Button>
             <div className={classes.spacer} />
@@ -169,7 +184,7 @@ export const Console = connect(
               <Text>https://github.com/pashaish</Text>
             </a>
             <div className={classes.spacer} />
-            <TransparentButton onClick={() => this.reqJsonFormat()}>
+            <TransparentButton onClick={() => this.reqJsonFormat(reqValue)}>
               <FormatIcon />
               <Text fontSize="16px">Форматировать</Text>
             </TransparentButton>

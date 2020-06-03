@@ -26,6 +26,9 @@ module.exports = {
         "react/prop-types": "off",
         "no-continue": "off",
         "no-case-declarations": "off",
+        "jsx-a11y/no-static-element-interactions": "off",
+        "class-methods-use-this": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
         "no-restricted-syntax": "off"
     }
 };
