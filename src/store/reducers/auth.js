@@ -1,6 +1,9 @@
 // @ts-check
 import {
-  AUTH_PENDING, AUTH_ERROR, AUTH_SUCCESS, AUTH_LOGOUT,
+  AUTH_PENDING,
+  AUTH_ERROR,
+  AUTH_SUCCESS,
+  AUTH_LOGOUT,
 } from '../actions/authActions';
 
 const initialState = {

@@ -99,9 +99,16 @@ export class HistoryRecord extends React.Component {
       isOpen: false,
       isCopied: false,
     };
-    document.addEventListener('click', () => {
-      this.setState({ isOpen: false });
-    });
+    this.closeMenu = this.closeMenu.bind(this);
+    document.addEventListener('click', this.closeMenu);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.closeMenu);
+  }
+
+  closeMenu() {
+    this.setState({ isOpen: false });
   }
 
   copyNotify() {
@@ -129,7 +136,7 @@ export class HistoryRecord extends React.Component {
         key={record.id}
         className={classes.record}
         onClick={() => {
-          setTimeout(() => {
+          window.requestAnimationFrame(() => {
             this.setState({ isOpen: !isOpen });
           });
         }}

@@ -9,10 +9,6 @@ import { Router } from './views/Router';
 
 const root = document.getElementById('root');
 
-if (root === null) {
-  throw new Error('Root element not found');
-}
-
 document.body.style.padding = '0px';
 document.body.style.margin = '0px';
 

@@ -27,7 +27,7 @@ const { classes } = jss
       position: 'relative',
       top: '-25px',
     },
-    split_pane: {
+    splitPane: {
       display: 'flex',
     },
     resizer: {
@@ -71,7 +71,7 @@ export const QueryEditor = ({
   <div className={classes.wrap}>
     <SplitPane
       onDragEnd={(e) => onGlutterSizeChange(parseInt(e[0], 10))}
-      className={`${classes.split_pane} ${classes.fullHeight}`}
+      className={`${classes.splitPane} ${classes.fullHeight}`}
       sizes={[glutterSize, 100 - glutterSize]}
       minSize={50}
       expandToMin={false}

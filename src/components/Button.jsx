@@ -5,6 +5,8 @@ import jss from 'jss';
 const { classes } = jss
   .createStyleSheet({
     button: {
+      padding: '5px',
+      fontSize: '14px',
       cursor: 'pointer',
       background: 'linear-gradient(180deg, #45A6FF 0%, #0055FB 100%), #C4C4C4',
       borderRadius: '5px',
@@ -43,12 +45,8 @@ const { classes } = jss
  *  className?: string,
  * }} param0
  */
-export const Button = ({ children = '', onClick, className }) => (
-  <button
-    className={`${classes.button} ${className}`}
-    onClick={onClick}
-    type="button"
-  >
+export const Button = ({ children = '', onClick }) => (
+  <button className={`${classes.button}`} onClick={onClick} type="button">
     {children}
   </button>
 );

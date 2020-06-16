@@ -1,15 +1,8 @@
-// @ts-check
-import React from 'react';
+import * as React from 'react';
 import jss from 'jss';
-import { Text } from './Text';
 
 const { classes } = jss
   .createStyleSheet({
-    wrapper: {
-      display: 'flex',
-      flexDirection: 'column',
-      maxWidth: '460px',
-    },
     input: {
       marginTop: '3px',
       fontSize: '18px',
@@ -23,11 +16,6 @@ const { classes } = jss
       boxSizing: 'border-box',
       borderRadius: '5px',
     },
-    sublabel: {
-      float: 'right',
-      color: '#999999',
-      fontSize: '12px',
-    },
     error: {
       '& input': {
         borderColor: '#CF2C00',
@@ -36,48 +24,17 @@ const { classes } = jss
         color: '#CF2C00',
       },
     },
-    errorText: {
-      marginTop: '2px',
-      height: '6px',
-      fontSize: '12px',
-    },
   })
   .attach();
 
-/**
- * @param {{
- *  value?: string,
- *  label?: string,
- *  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
- *  type?: string,
- *  name?: string,
- *  sublabel?: string,
- *  error?: string | null
- * }} param0
- */
 export const Input = ({
-  value = '',
-  label = '',
-  onChange,
-  type = 'input',
-  name = null,
-  sublabel = '',
-  error = null,
+  value = '', type = 'text', name = '', onChange,
 }) => (
-  <div className={`${classes.wrapper} ${error ? classes.error : ''}`}>
-    <div>
-      <Text type="span">{label}</Text>
-      <Text className={classes.sublabel} type="span">
-        {sublabel}
-      </Text>
-    </div>
-    <input
-      name={name}
-      type={type}
-      className={classes.input}
-      value={value}
-      onChange={onChange}
-    />
-    <Text className={classes.errorText}>{error || ''}</Text>
-  </div>
+  <input
+    name={name}
+    className={classes.input}
+    value={value}
+    type={type}
+    onChange={onChange}
+  />
 );

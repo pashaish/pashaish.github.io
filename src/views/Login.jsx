@@ -6,10 +6,11 @@ import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import { Text } from '../components/Text';
 import { LogoIcon } from '../icons/LogoIcon';
-import { Input } from '../components/Input';
+import { Field } from '../components/Field';
 import { Button } from '../components/Button';
 import { tryAuthAsyncAct } from '../store/actions/authActions';
 import { AuthErrorBox } from '../components/AuthErrorBox';
+import { Input } from '../components/Input';
 
 const { classes } = jss
   .createStyleSheet({
@@ -138,35 +139,38 @@ export const Login = connect(
               API-консолька
             </Text>
             {showError ? <AuthErrorBox message={errorMessage} /> : ''}
-            <Input
-              label="Логин"
-              name="login"
-              error={login.error}
-              value={login.value}
-              onChange={(e) => this.setState({
-                login: { value: e.currentTarget.value, error: null },
-              })}
-            />
-            <Input
-              name="sublogin"
+            <Field label="Логин" error={login.error}>
+              <Input
+                name="login"
+                value={login.value}
+                onChange={(e) => this.setState({
+                  login: { value: e.currentTarget.value, error: null },
+                })}
+              />
+            </Field>
+            <Field
               label="Сублогин"
               sublabel="Опционально"
               error={sublogin.error}
-              value={sublogin.value}
-              onChange={(e) => this.setState({
-                sublogin: { value: e.currentTarget.value, error: null },
-              })}
-            />
-            <Input
-              name="password"
-              type="password"
-              label="Пароль"
-              error={password.error}
-              value={password.value}
-              onChange={(e) => this.setState({
-                password: { value: e.currentTarget.value, error: null },
-              })}
-            />
+            >
+              <Input
+                name="sublogin"
+                value={sublogin.value}
+                onChange={(e) => this.setState({
+                  sublogin: { value: e.currentTarget.value, error: null },
+                })}
+              />
+            </Field>
+            <Field label="Пароль" error={password.error}>
+              <Input
+                name="password"
+                type="password"
+                value={password.value}
+                onChange={(e) => this.setState({
+                  password: { value: e.currentTarget.value, error: null },
+                })}
+              />
+            </Field>
             <Button onClick={this.auth}>
               {isPendingRequest ? (
                 <div className={classes.loader}>

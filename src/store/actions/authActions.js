@@ -5,47 +5,59 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
-export const tryAuthAsyncAct = (login, sublogin, password) => (dispatch) => {
+export const tryAuthAsyncAct = (login, sublogin, password) => async (
+  dispatch,
+) => {
   dispatch({ type: AUTH_PENDING });
   const sendsay = new Sendsay();
-  sendsay.login({
-    login,
-    sublogin,
-    password,
-  }).then(() => {
+  try {
+    await sendsay.login({
+      login,
+      sublogin,
+      password,
+    });
+
     dispatch({
       type: AUTH_SUCCESS,
       payload: {
-        session: sendsay.session, login, sublogin,
+        session: sendsay.session,
+        login,
+        sublogin,
       },
     });
-  }).catch((error) => {
+  } catch (error) {
     dispatch({ type: AUTH_ERROR, payload: error });
-  });
+  }
 };
 
 export const logoutAct = () => ({
   type: AUTH_LOGOUT,
 });
 
-export const checkAuthAsyncAct = (session) => (dispatch) => {
+export const checkAuthAsyncAct = (session) => async (dispatch) => {
   const sendsay = new Sendsay();
-  sendsay.request({
-    session,
-    action: 'pong',
-  }).then(() => {
-    sendsay.request({
+
+  try {
+    await sendsay.request({
       session,
-      action: 'sys.settings.get',
-      list: [
-        'about.owner.email',
-      ],
-    }).then((e) => {
-      dispatch({ type: AUTH_SUCCESS, payload: { session, login: e.list['about.owner.email'][0] } });
-    }).catch((e) => {
-      dispatch({ type: AUTH_ERROR, payload: e });
+      action: 'pong',
     });
-  }).catch(() => {
+
+    try {
+      const user = await sendsay.request({
+        session,
+        action: 'sys.settings.get',
+        list: ['about.owner.email'],
+      });
+
+      dispatch({
+        type: AUTH_SUCCESS,
+        payload: { session, login: user.list['about.owner.email'][0] },
+      });
+    } catch (e) {
+      dispatch({ type: AUTH_ERROR, payload: e });
+    }
+  } catch (e) {
     dispatch({ type: AUTH_ERROR });
-  });
+  }
 };

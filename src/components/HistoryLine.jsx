@@ -62,9 +62,11 @@ export const HistoryLine = ({
   onRunRecord,
 }) => {
   const [scroll, setScroll] = React.useState(0);
-  let scrollElement = null;
+  const ref = React.createRef();
+  const getScrollElement = () => ref.current;
 
   const changeScroll = (deltaY) => {
+    const scrollElement = getScrollElement();
     if (window.innerWidth > scrollElement.offsetWidth) {
       setScroll(0);
     } else if (scrollElement) {
@@ -92,9 +94,7 @@ export const HistoryLine = ({
         className={classes.historyLine}
       >
         <div
-          ref={(el) => {
-            scrollElement = el;
-          }}
+          ref={ref}
           className={classes.scroll}
           style={{ marginLeft: `${scroll}px` }}
         >

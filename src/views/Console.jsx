@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import jss from 'jss';
-import Sendsay from 'sendsay-api';
 import { logoutAct } from '../store/actions/authActions';
 import { Header } from '../components/Header';
 import { HistoryLine } from '../components/HistoryLine';
@@ -12,9 +11,10 @@ import { TransparentButton } from '../components/TransparentButton';
 import { Button } from '../components/Button';
 import { FormatIcon } from '../icons/FormatIcon';
 import {
-  historyAddAct,
   historyDeleteAct,
   historyDeleteAllAct,
+  requestHistoryAsyncAct,
+  historyReqValueSet,
 } from '../store/actions/historyActions';
 
 const { classes } = jss
@@ -51,9 +51,6 @@ const { classes } = jss
         color: '#999999',
       },
     },
-    btn: {
-      padding: '10px',
-    },
   })
   .attach();
 
@@ -62,14 +59,20 @@ const mapStateToProps = (state) => ({
   session: state.auth.session,
   glutterSize: state.consoleApi.glutter,
   history: state.history,
+  initialReqValue: state.editor.reqValue,
+  initialResValue: state.editor.resValue,
+  initialResValid: state.editor.isValid,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setReqValue: (reqValue) => {
+    dispatch(historyReqValueSet({ reqValue }));
+  },
   logout: () => {
     dispatch(logoutAct());
   },
-  historyAdd: (body, isValid) => {
-    dispatch(historyAddAct(body, isValid));
+  requestHistory: (reqValue, session) => {
+    dispatch(requestHistoryAsyncAct(reqValue, session));
   },
   historyDelete: (id) => {
     dispatch(historyDeleteAct(id));
@@ -89,53 +92,22 @@ export const Console = connect(
   class extends React.Component {
     constructor(props) {
       super(props);
+      const { initialReqValue } = props;
       this.state = {
-        reqValue: '',
-        resValue: '',
+        reqValue: initialReqValue,
         errorMessage: '',
-        resValid: true,
       };
       this.reqJsonFormat = this.reqJsonFormat.bind(this);
-      this.request = this.request.bind(this);
     }
 
     reqJsonFormat(reqValue) {
       try {
         const formatedJson = JSON.stringify(JSON.parse(reqValue), null, '  ');
-        this.setState({ reqValue: formatedJson });
-        return true;
+        return formatedJson;
       } catch (e) {
         this.setState({ errorMessage: e.message });
       }
-      return false;
-    }
-
-    request(reqValue) {
-      if (!this.reqJsonFormat(reqValue)) {
-        return;
-      }
-      const { session, historyAdd } = this.props;
-      const ss = new Sendsay();
-      ss.request({
-        ...JSON.parse(reqValue),
-        session,
-      })
-        .then((e) => {
-          this.setState({
-            resValue: JSON.stringify(e, null, '  '),
-            resValid: true,
-          });
-          historyAdd(reqValue.replace(/\s/gim, ''), true);
-          this.setState({ reqValue });
-        })
-        .catch((e) => {
-          this.setState({
-            resValue: JSON.stringify(e, null, '  '),
-            resValid: false,
-          });
-          historyAdd(reqValue.replace(/\s/gim, ''), false);
-          this.setState({ reqValue });
-        });
+      return null;
     }
 
     render() {
@@ -147,10 +119,14 @@ export const Console = connect(
         historyDelete,
         history,
         historyDeleteAll,
+        requestHistory,
+        session,
+        initialResValue,
+        setReqValue,
+        initialReqValue,
+        initialResValid,
       } = this.props;
-      const {
-        reqValue, errorMessage, resValue, resValid,
-      } = this.state;
+      const { errorMessage } = this.state;
 
       return (
         <div className={classes.wrapp}>
@@ -162,24 +138,34 @@ export const Console = connect(
               historyDelete(id);
             }}
             onRunRecord={(body) => {
-              this.request(JSON.stringify(JSON.parse(body), null, '  '));
+              requestHistory(
+                JSON.stringify(JSON.parse(body), null, '  '),
+                session,
+              );
             }}
           />
           <QueryEditor
             glutterSize={glutterSize}
-            responceValue={resValue}
-            requestValue={reqValue}
-            resValid={resValid}
+            responceValue={initialResValue}
+            requestValue={initialReqValue}
+            resValid={initialResValid}
             errorMessage={errorMessage}
-            onReqChange={(e) => this.setState({ reqValue: e, errorMessage: '' })}
+            onReqChange={(e) => {
+              setReqValue(e);
+              this.setState({ errorMessage: '' });
+            }}
             onGlutterSizeChange={(e) => {
               glutterSizeChange(e);
             }}
           />
           <div className={classes.footer}>
             <Button
-              className={classes.btn}
-              onClick={() => this.request(reqValue)}
+              onClick={() => {
+                const formated = this.reqJsonFormat(initialReqValue);
+                if (formated) {
+                  requestHistory(formated, session);
+                }
+              }}
             >
               <Text fontSize="16px">Отправить</Text>
             </Button>
@@ -188,7 +174,14 @@ export const Console = connect(
               <Text>https://github.com/pashaish</Text>
             </a>
             <div className={classes.spacer} />
-            <TransparentButton onClick={() => this.reqJsonFormat(reqValue)}>
+            <TransparentButton
+              onClick={() => {
+                const formated = this.reqJsonFormat(initialReqValue);
+                if (formated) {
+                  setReqValue(formated);
+                }
+              }}
+            >
               <FormatIcon />
               <Text fontSize="16px">Форматировать</Text>
             </TransparentButton>
