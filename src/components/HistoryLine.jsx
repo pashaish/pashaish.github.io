@@ -65,7 +65,7 @@ export const HistoryLine = ({
   const ref = React.createRef();
   const getScrollElement = () => ref.current;
 
-  const changeScroll = (deltaY) => {
+  const changeScroll = ({ deltaY }) => {
     const scrollElement = getScrollElement();
     if (window.innerWidth > scrollElement.offsetWidth) {
       setScroll(0);
@@ -90,7 +90,7 @@ export const HistoryLine = ({
   return (
     <div className={classes.wrapper}>
       <div
-        onWheel={(e) => changeScroll(e.deltaY)}
+        onWheel={(e) => changeScroll(e)}
         className={classes.historyLine}
       >
         <div

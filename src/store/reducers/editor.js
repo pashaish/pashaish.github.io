@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import { HISTORY_REQ_VALUE_SET } from '../actions/historyActions';
 
 const initialState = {

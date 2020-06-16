@@ -49,10 +49,6 @@ const { classes } = jss
     notValid: {
       backgroundColor: '#CF2C00',
     },
-    txt: {
-      margin: '0 12px',
-      fontSize: '21px',
-    },
     dropdown: {
       zIndex: 1,
       width: '100%',
@@ -154,7 +150,7 @@ export class HistoryRecord extends React.Component {
               record.isValid ? classes.valid : classes.notValid
             }`}
           />
-          <Text className={classes.txt}>{JSON.parse(record.body).action}</Text>
+          <Text large>{JSON.parse(record.body).action}</Text>
           <DragIcon />
         </div>
         <div className={`${classes.dropdown} ${isOpen ? '' : classes.hidden}`}>

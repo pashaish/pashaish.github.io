@@ -9,27 +9,24 @@ const { classes } = jss
         '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;',
       color: 'inherit',
     },
+    large: {
+      margin: '0 12px',
+      fontSize: '21px',
+    },
   })
   .attach();
 
-/**
- * @param {{
- *  children?: string | number | boolean,
- *  type?: string,
- *  fontSize?: string | null,
- *  className?: string,
- * }} param0
- */
 export const Text = ({
   children = '',
   type = 'span',
+  large,
   fontSize = null,
   className = '',
 }) => React.createElement(
   type,
   {
     style: { fontSize },
-    className: `${classes.text} ${className}`,
+    className: `${classes.text} ${className} ${large ? classes.large : ''}`,
   },
   children,
 );

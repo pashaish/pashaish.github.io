@@ -9,9 +9,6 @@ import { Router } from './views/Router';
 
 const root = document.getElementById('root');
 
-document.body.style.padding = '0px';
-document.body.style.margin = '0px';
-
 ReactDOM.render(
   <Provider store={persistedStore.store}>
     <PersistGate loading={null} persistor={persistedStore.persistor}>
