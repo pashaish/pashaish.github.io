@@ -52,17 +52,17 @@ export const history = (state = initialState, action) => {
             : req))
           .sort((prev, next) => next.timestamp - prev.timestamp);
       }
-      return [
-        ...state,
-        {
-          id: v4(),
-          body: action.payload.body,
-          isValid: action.payload.isValid,
-          timestamp: new Date().getTime(),
-        },
-      ]
+      const newState = [...state]
         .sort((prev, next) => next.timestamp - prev.timestamp)
-        .slice(0, 15);
+        .slice(0, 14);
+
+      newState.push({
+        id: v4(),
+        body: action.payload.body,
+        isValid: action.payload.isValid,
+        timestamp: new Date().getTime(),
+      });
+      return newState;
     case HISTORY_DELETE:
       return state.filter((req) => req.id !== action.payload.id);
     case HISTORY_DELETE_ALL:
