@@ -1,1 +1,1 @@
-[Synapse Page](pashaish.github.io)
+[Synapse Page](https://pashaish.github.io)
